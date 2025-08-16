@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Algoritma dalam Video Editing</title>
+    <style>
+        /* Reset CSS dan Variabel */
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --light: #ecf0f1;
+            --dark: #34495e;
+            --success: #2ecc71;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        /* Header Styles */
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--dark));
+            color: white;
+            padding: 1.5rem 0;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        header::before {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%);
+            transform: rotate(30deg);
+        }
+        
+        header h1 {
+            font-size: 2.8rem;
+            margin-bottom: 0.5rem;
+            position: relative;
+            z-index: 1;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        header p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+            opacity: 0.9;
+        }
+        
+        /* Navigation */
+        nav {
+            background-color: var(--dark);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        nav ul {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+        
+        nav li {
+            margin: 0 1rem;
+        }
+        
+        nav a {
+            color: var(--light);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+        
+        nav a:hover {
+            background-color: var(--secondary);
+            color: white;
+        }
+        
+        /* Main Content */
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+        
+        .intro {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 2rem;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .intro h2 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+            font-size: 2.2rem;
+        }
+        
+        .intro p {
+            font-size: 1.1rem;
+            max-width: 800px;
+            margin: 0 auto 1.5rem;
+        }
+        
+        /* Algorithm Cards */
+        .algorithm-section {
+            margin-bottom: 3rem;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: var(--primary);
+            font-size: 2rem;
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+        
+        .section-title::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: var(--secondary);
+            border-radius: 2px;
+        }
+        
+        .algorithm-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        .algorithm-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .algorithm-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+        
+        .card-header {
+            background: var(--primary);
+            color: white;
+            padding: 1.5rem;
+            text-align: center;
+        }
+        
+        .card-body {
+            padding: 1.5rem;
+        }
+        
+        .card-body h3 {
+            color: var(--secondary);
+            margin-bottom: 1rem;
+            font-size: 1.4rem;
+        }
+        
+        .card-body ul {
+            padding-left: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .card-body li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .complexity {
+            background: var(--light);
+            padding: 0.8rem;
+            border-radius: 6px;
+            font-weight: 500;
+            color: var(--dark);
+            margin-top: 1rem;
+        }
+        
+        /* Code Example */
+        .code-example {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .code-example h3 {
+            color: #66d9ef;
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+        
+        .code-example pre {
+            line-height: 1.5;
+        }
+        
+        .comment { color: #75715e; }
+        .keyword { color: #f92672; }
+        .function { color: #66d9ef; }
+        .string { color: #a6e22e; }
+        .number { color: #ae81ff; }
+        
+        /* Process Visualization */
+        .process-visualization {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            margin-bottom: 3rem;
+        }
+        
+        .process-steps {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 2rem;
+            position: relative;
+        }
+        
+        .process-steps::before {
+            content: "";
+            position: absolute;
+            top: 40px;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--secondary);
+            z-index: 1;
+        }
+        
+        .step {
+            text-align: center;
+            position: relative;
+            z-index: 2;
+            flex: 1;
+            padding: 0 1rem;
+        }
+        
+        .step-icon {
+            width: 80px;
+            height: 80px;
+            background: white;
+            border: 4px solid var(--secondary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--secondary);
+        }
+        
+        .step h4 {
+            margin-bottom: 0.5rem;
+            color: var(--primary);
+        }
+        
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 3rem 0 2rem;
+            text-align: center;
+        }
+        
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            text-align: left;
+        }
+        
+        .footer-section h3 {
+            font-size: 1.4rem;
+            margin-bottom: 1.5rem;
+            color: var(--light);
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+        
+        .footer-section h3::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background: var(--secondary);
+        }
+        
+        .footer-section p {
+            margin-bottom: 1rem;
+            opacity: 0.8;
+        }
+        
+        .footer-bottom {
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+        }
+        
+        /* Responsiveness */
+        @media (max-width: 768px) {
+            nav ul {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            nav li {
+                margin: 0.5rem 0;
+            }
+            
+            .process-steps {
+                flex-direction: column;
+            }
+            
+            .process-steps::before {
+                display: none;
+            }
+            
+            .step {
+                margin-bottom: 2rem;
+            }
+            
+            .step:last-child {
+                margin-bottom: 0;
+            }
+            
+            header h1 {
+                font-size: 2.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <h1>Algoritma dalam Video Editing</h1>
+        <p>Mengungkap Teknologi di Balik Perangkat Lunak Pengeditan Video Modern</p>
+    </header>
+    
+    <!-- Navigation -->
+    <nav>
+        <ul>
+            <li><a href="#intro">Pendahuluan</a></li>
+            <li><a href="#algorithms">Algoritma Utama</a></li>
+            <li><a href="#code">Contoh Kode</a></li>
+            <li><a href="#process">Proses Editing</a></li>
+        </ul>
+    </nav>
+    
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Introduction Section -->
+        <section class="intro" id="intro">
+            <h2>Teknologi di Balik Video Editing Modern</h2>
+            <p>Pengeditan video modern bergantung pada algoritma kompleks yang memungkinkan manipulasi konten video secara efisien. Algoritma-algoritma ini memproses data video dalam jumlah besar dan menerapkan transformasi kompleks dalam waktu nyata.</p>
+            <p>Dari kompresi video hingga efek khusus, algoritma memainkan peran penting dalam membuat konten video yang kita nikmati setiap hari. Website ini menjelaskan beberapa algoritma kunci yang digunakan dalam perangkat lunak pengeditan video profesional.</p>
+        </section>
+        
+        <!-- Algorithms Section -->
+        <section class="algorithm-section" id="algorithms">
+            <h2 class="section-title">Algoritma Utama dalam Video Editing</h2>
+            
+            <div class="algorithm-grid">
+                <!-- Algorithm 1 -->
+                <div class="algorithm-card">
+                    <div class="card-header">
+                        <h2>Kompresi Video</h2>
+                    </div>
+                    <div class="card-body">
+                        <h3>H.264/HEVC</h3>
+                        <p>Algoritma kompresi yang mengurangi ukuran file video dengan:</p>
+                        <ul>
+                            <li>Prediksi gerakan antar frame</li>
+                            <li>Transformasi kosinus diskrit (DCT)</li>
+                            <li>Kuantisasi koefisien frekuensi</li>
+                            <li>Pengkodean entropi</li>
+                        </ul>
+                        <div class="complexity">Kompleksitas: O(n log n) per frame</div>
+                    </div>
+                </div>
+                
+                <!-- Algorithm 2 -->
+                <div class="algorithm-card">
+                    <div class="card-header">
+                        <h2>Stabilisasi Video</h2>
+                    </div>
+                    <div class="card-body">
+                        <h3>Optical Flow</h3>
+                        <p>Teknik untuk menstabilkan rekaman bergoyang:</p>
+                        <ul>
+                            <li>Deteksi titik fitur antar frame</li>
+                            <li>Perhitungan vektor gerakan</li>
+                            <li>Transformasi affine untuk kompensasi gerakan</li>
+                            <li>Interpolasi frame untuk gerakan halus</li>
+                        </ul>
+                        <div class="complexity">Kompleksitas: O(n²) per frame</div>
+                    </div>
+                </div>
+                
+                <!-- Algorithm 3 -->
+                <div class="algorithm-card">
+                    <div class="card-header">
+                        <h2>Color Grading</h2>
+                    </div>
+                    <div class="card-body">
+                        <h3>Manipulasi Ruang Warna</h3>
+                        <p>Algoritma untuk menyesuaikan warna video:</p>
+                        <ul>
+                            <li>Konversi RGB ke HSL/HSV</li>
+                            <li>Kurva transfer untuk penyesuaian nada</li>
+                            <li>Pemetaan Look-Up Table (LUT)</li>
+                            <li>Pencocokan warna antar klip</li>
+                        </ul>
+                        <div class="complexity">Kompleksitas: O(n) per piksel</div>
+                    </div>
+                </div>
+                
+                <!-- Algorithm 4 -->
+                <div class="algorithm-card">
+                    <div class="card-header">
+                        <h2>Object Tracking</h2>
+                    </div>
+                    <div class="card-body">
+                        <h3>Mean Shift Algorithm</h3>
+                        <p>Pelacakan objek bergerak dalam video:</p>
+                        <ul>
+                            <li>Inisialisasi model warna objek</li>
+                            <li>Perhitungan histogram probabilitas</li>
+                            <li>Iterasi pergeseran mean</li>
+                            <li>Pembaruan model adaptif</li>
+                        </ul>
+                        <div class="complexity">Kompleksitas: O(kn) per frame</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Code Example Section -->
+        <section class="algorithm-section" id="code">
+            <h2 class="section-title">Contoh Implementasi Algoritma</h2>
+            
+            <div class="code-example">
+                <h3>Algoritma Stabilisasi Video Sederhana (Python Pseudocode)</h3>
+                <pre><code><span class="keyword">def</span> <span class="function">stabilize_video</span>(frames):
+    <span class="comment"># Inisialisasi transformasi</span>
+    transforms = []
+    
+    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>, len(frames)):
+        <span class="comment"># Deteksi titik fitur dengan SIFT</span>
+        prev_pts = cv2.goodFeaturesToTrack(prev_frame, maxCorners=<span class="number">200</span>, qualityLevel=<span class="number">0.01</span>, minDistance=<span class="number">30</span>)
+        curr_pts, status, err = cv2.calcOpticalFlowPyrLK(prev_frame, curr_frame, prev_pts, <span class="keyword">None</span>)
+        
+        <span class="comment"># Hitung matriks transformasi affine</span>
+        transform = cv2.estimateAffinePartial2D(prev_pts, curr_pts)
+        transforms.append(transform)
+    
+    <span class="comment"># Hitung lintasan kumulatif</span>
+    trajectory = np.cumsum(transforms, axis=<span class="number">0</span>)
+    
+    <span class="comment"># Hitung transformasi stabilisasi</span>
+    smoothed_trajectory = smooth(trajectory, window_size=<span class="number">30</span>)
+    diff = smoothed_trajectory - trajectory
+    transforms_smooth = transforms + diff
+    
+    <span class="comment"># Terapkan transformasi ke frame</span>
+    stabilized_frames = []
+    <span class="keyword">for</span> i <span class="keyword">in</span> range(len(frames)):
+        frame = apply_transform(frames[i], transforms_smooth[i])
+        stabilized_frames.append(frame)
+    
+    <span class="keyword">return</span> stabilized_frames</code></pre>
+            </div>
+        </section>
+        
+        <!-- Process Visualization -->
+        <section class="process-visualization" id="process">
+            <h2 class="section-title">Proses Editing Video</h2>
+            <p>Alur kerja pengeditan video yang didukung oleh berbagai algoritma:</p>
+            
+            <div class="process-steps">
+                <div class="step">
+                    <div class="step-icon">1</div>
+                    <h4>Capture & Import</h4>
+                    <p>Video diambil dan diimpor ke perangkat lunak editing</p>
+                </div>
+                
+                <div class="step">
+                    <div class="step-icon">2</div>
+                    <h4>Cutting & Arranging</h4>
+                    <p>Klip dipotong dan diatur pada timeline</p>
+                </div>
+                
+                <div class="step">
+                    <div class="step-icon">3</div>
+                    <h4>Color Correction</h4>
+                    <p>Algoritma koreksi warna diterapkan</p>
+                </div>
+                
+                <div class="step">
+                    <div class="step-icon">4</div>
+                    <h4>Effects & Transitions</h4>
+                    <p>Efek visual dan transisi ditambahkan</p>
+                </div>
+                
+                <div class="step">
+                    <div class="step-icon">5</div>
+                    <h4>Rendering & Export</h4>
+                    <p>Video dikompresi dan diekspor</p>
+                </div>
+            </div>
+        </section>
+    </div>
+    
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Tentang Website</h3>
+                <p>Website ini menjelaskan konsep algoritma yang digunakan dalam perangkat lunak pengeditan video modern. Konten disajikan untuk tujuan pendidikan dan pemahaman teknis.</p>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Teknologi Digunakan</h3>
+                <p>HTML5, CSS3, JavaScript</p>
+                <p>Desain responsif</p>
+                <p>Visualisasi proses editing</p>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Referensi</h3>
+                <p>Digital Video Processing - A. Murat Tekalp</p>
+                <p>Video Codec Design - Iain E. Richardson</p>
+                <p>Computer Vision: Algorithms and Applications - Richard Szeliski</p>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2023 Algoritma Video Editing | Website Edukasi Informatika</p>
+        </div>
+    </footer>
+</body>
+</html>
